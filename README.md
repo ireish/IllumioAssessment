@@ -13,7 +13,7 @@ The program:
 
 ## **Requirements**
 - **Java**: JDK 17 or later.
-- **Maven**: Latest version (3.8.x recommended).
+- **Maven**: Latest version (not required if you run using Method 2).
 
 ---
 
@@ -23,12 +23,12 @@ The program:
 3. The program assumes the following input files:
    - `Input.txt`: Contains flow log records.
    - `LookupFile.csv`: Contains the lookup table with `dstport`, `protocol`, and `tag` mappings.
-4. Output files will always be generated in a predefined directory.
+4. Output files will be generated in a directory as defined in `config.properties`.
 
 ---
 
-## **Setup Instructions**
-### **1. Install Maven (if not present)**
+## **Setup Instructions - Method 1**
+### **1. Install Maven**
 #### **Linux/Ubuntu**
 ```bash
 sudo apt update
@@ -59,16 +59,28 @@ java -version
 ---
 
 ## **Steps to Run**
+
 ### **Clone or Download the Repository**
 Clone the repository:
 ```bash
 git clone <repository-url>
-cd FlowLogParser
+```
+
+### **Place Custom Files**
+Place your custom `<flow_record>.txt`and `<lookupFile>.csv` in:
+```
+FlowLogParser/src/main/resources/files
+```
+
+Update the file names for 'lookupFilePath' and 'flowLogFilePath' in `config.properties` located in:
+```
+FlowLogParser/src/main/resources/
 ```
 
 ### **Compile the Project**
 Run the following Maven commands in the project directory:
 ```bash
+cd FlowLogParser
 mvn clean compile
 ```
 
@@ -84,18 +96,44 @@ Output files are generated in the directory:
 FlowLogParser/src/main/java/org/example/output
 ```
 
-### **Test with Custom Files**
-Place your custom `Input.txt` (flow log records) and `LookupFile.csv` (lookup table) in:
+---
+
+## **Setup Instructions - Method 2 (Simpler)**
+### **1. Extract FlowLogParser_PlainJava.zip**
+Extract the Zip file `FlowLogParser_PlainJava.zip` present in root.
+
+---
+
+## **Steps to Run**
+
+### **Place Custom Files**
+Place your custom `<flow_record>.txt`and `<lookupFile>.csv` in:
 ```
-FlowLogParser/src/main/resources/files
+./files
 ```
 
-Update the file paths in `config.properties` located in:
+Update the file names for 'lookupFilePath' and 'flowLogFilePath' in `config.properties` located in root
+
+### **Compile the Project**
+Run the following command in your command line:
+```bash
+javac Main.java
 ```
-FlowLogParser/src/main/resources/
+
+### **Run the Program**
+Execute the main class using:
+```bash
+java Main
+```
+
+### **View Output Files**
+Output files are generated in the directory:
+```
+./output
 ```
 
 ---
+
 
 ## **Output Details**
 1. **Tag Counts**
@@ -105,3 +143,10 @@ FlowLogParser/src/main/resources/
 2. **Port/Protocol Combination Counts**
    - Generated in `output/PortProtocolCounts.csv`:
    - Details the count of matches for each port and protocol combination.
+   
+## **My Analysis**   
+Most flow log records used the TCP protocol.
+
+**Reason:** TCP is the default protocol for many common applications, including web traffic (HTTP/HTTPS), email, and file transfers, due to its reliable connection-oriented nature.
+
+**Scalability:** The parser uses BufferedReader for line-by-line processing, making it efficient for handling large files.
