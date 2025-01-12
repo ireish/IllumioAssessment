@@ -1,3 +1,5 @@
+package org.example;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,7 +13,8 @@ public class FlowLogParser {
     private final HashMap<String, Integer> portProtocolCounter = new HashMap<>();
 
     public void parseLookupFileTxt(String filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+
+        try (BufferedReader br = new BufferedReader(new FileReader(FlowLogParser.class.getClassLoader().getResource(filePath).getPath()))) {
             String header = br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
@@ -33,13 +36,13 @@ public class FlowLogParser {
 
                 tagLookup.put(key.toLowerCase(), tag);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void generateProtocolMappings(String filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FlowLogParser.class.getClassLoader().getResource(filePath).getPath()))) {
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
@@ -57,13 +60,13 @@ public class FlowLogParser {
                     System.err.println("Invalid key format: " + parts[0]);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void parseFlowLogs(String filepath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+    public void parseFlowLogs(String filePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FlowLogParser.class.getClassLoader().getResource(filePath).getPath()))) {
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
@@ -77,14 +80,14 @@ public class FlowLogParser {
                     String dstPort = parts[6];
                     int protocolNum = Integer.parseInt(parts[7]);
                     String protocolName = protocolMap.getOrDefault(protocolNum, "Unassigned");
-                    String lookupKey = protocolNum + "_" + protocolName.toLowerCase();
+                    String lookupKey = dstPort + "_" + protocolName.toLowerCase();
 
                     String tagName = tagLookup.getOrDefault(lookupKey, "Untagged");
                     tagCounter.put(tagName, tagCounter.getOrDefault(tagName, 0) + 1);
                     portProtocolCounter.put(lookupKey, portProtocolCounter.getOrDefault(lookupKey, 0) + 1);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
