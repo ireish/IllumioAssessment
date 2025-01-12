@@ -60,12 +60,6 @@ java -version
 
 ## **Steps to Run**
 
-### **Clone or Download the Repository**
-Clone the repository:
-```bash
-git clone <repository-url>
-```
-
 ### **Place Custom Files**
 Place your custom `<flow_record>.txt`and `<lookupFile>.csv` in:
 ```
@@ -77,10 +71,16 @@ Update the file names for 'lookupFilePath' and 'flowLogFilePath' in `config.prop
 FlowLogParser/src/main/resources/
 ```
 
+### **Clone or Download the Repository**
+Clone the repository:
+```bash
+git clone <repository-url>
+cd FlowLogParser
+```
+
 ### **Compile the Project**
 Run the following Maven commands in the project directory:
 ```bash
-cd FlowLogParser
 mvn clean compile
 ```
 
@@ -93,7 +93,7 @@ mvn exec:java
 ### **View Output Files**
 Output files are generated in the directory:
 ```
-FlowLogParser/src/main/java/org/example/output
+FlowLogParser/output
 ```
 
 ---
@@ -150,3 +150,26 @@ Most flow log records used the TCP protocol.
 **Reason:** TCP is the default protocol for many common applications, including web traffic (HTTP/HTTPS), email, and file transfers, due to its reliable connection-oriented nature.
 
 **Scalability:** The parser uses BufferedReader for line-by-line processing, making it efficient for handling large files.
+
+## **Testing & Validation**
+
+I performed some basic validation and testing to ensure the application's functionality, reliability, and correctness.
+1. **Sample Data Validation**:
+   - Created sample flow log records and lookup table files for testing.
+   - Verified that the output files (`tag_count.txt` and `portProtocol_count.txt`) were successfully generated with the expected data.
+
+2. **Data Integrity Check**:
+   - Implemented validation to ensure that each row in the lookup table contains exactly three comma-separated values (`dstport`, `protocol`, and `tag`).
+   - Lines with invalid formatting were logged for debugging and skipped during processing.
+
+3. **Blank Line Handling**:
+   - Validated that the parser effectively skips blank lines or newlines in all input files to ensure clean processing.
+
+4. **Error Handling**:
+   - Integrated `try-catch` blocks to handle file writing errors gracefully.
+   - Ensured meaningful error messages are logged to `System.err` if any issues occur during file writing.
+
+5. **Edge Case Testing**:
+   - Tested the parser with:
+     - Empty input files to ensure no crashes or undefined behavior.
+     - Unmapped protocols to confirm fallback logic assigns "Unassigned" or "Untagged" as default tags.
