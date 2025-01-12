@@ -12,6 +12,7 @@ public class FlowLogParser {
     private final HashMap<String, Integer> tagCounter = new HashMap<>();
     private final HashMap<String, Integer> portProtocolCounter = new HashMap<>();
 
+    // This method parses the lookup file and populates the tagCounter HashMap
     public void parseLookupFileTxt(String filePath) {
 
         try (BufferedReader br = new BufferedReader(new FileReader(FlowLogParser.class.getClassLoader().getResource(filePath).getPath()))) {
@@ -36,11 +37,12 @@ public class FlowLogParser {
 
                 tagLookup.put(key.toLowerCase(), tag);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
         }
     }
 
+    // This method parses all the Protocol Number -> Name mappings and stores them in a HashMap - protocolMap
     public void generateProtocolMappings(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(FlowLogParser.class.getClassLoader().getResource(filePath).getPath()))) {
             String line;
@@ -60,11 +62,12 @@ public class FlowLogParser {
                     System.err.println("Invalid key format: " + parts[0]);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
         }
     }
 
+    // Parses the network flow logs and calculates Tag counts and Port/Protocol combination counts;
     public void parseFlowLogs(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(FlowLogParser.class.getClassLoader().getResource(filePath).getPath()))) {
             String line;
@@ -87,15 +90,14 @@ public class FlowLogParser {
                     portProtocolCounter.put(lookupKey, portProtocolCounter.getOrDefault(lookupKey, 0) + 1);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
         }
     }
 
     public HashMap<String, Integer> getTagCounter() {
         return tagCounter;
     }
-
     public HashMap<String, Integer> getPortProtocolCounter() {
         return portProtocolCounter;
     }

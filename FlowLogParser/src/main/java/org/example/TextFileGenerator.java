@@ -37,7 +37,7 @@ public class TextFileGenerator {
                 }
             }
 
-            System.out.println("Data exported successfully to " + fileName);
+            System.out.println("Data written successfully to " + fileName);
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
         }
