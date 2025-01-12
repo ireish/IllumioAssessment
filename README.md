@@ -21,8 +21,8 @@ The program:
 1. The program supports only **default log format** as per [Amazon VPC Flow Logs Documentation](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html).
 2. Only **version 2** of the flow logs is supported.
 3. The program assumes the following input files:
-   - `Input.txt`: Contains flow log records.
-   - `LookupFile.csv`: Contains the lookup table with `dstport`, `protocol`, and `tag` mappings.
+   - `<FlowRecords>.txt`: Contains flow log records.
+   - `<LookupFile>.csv` or `<LookupFile>.txt`: Contains the lookup table with `dstport`, `protocol`, and `tag` mappings.
 4. Output files will be generated in a directory as defined in `config.properties`.
 
 ---
