@@ -66,21 +66,21 @@ Place your custom `<flow_record>.txt`and `<lookupFile>.csv` in:
 FlowLogParser/src/main/resources/files
 ```
 
+### **Clone or Download the Repository**
+Clone the repository:
+```bash
+git clone <repository-url>
+```
+
 Update the file names for 'lookupFilePath' and 'flowLogFilePath' in `config.properties` located in:
 ```
 FlowLogParser/src/main/resources/
 ```
 
-### **Clone or Download the Repository**
-Clone the repository:
-```bash
-git clone <repository-url>
-cd FlowLogParser
-```
-
 ### **Compile the Project**
 Run the following Maven commands in the project directory:
 ```bash
+cd FlowLogParser
 mvn clean compile
 ```
 
